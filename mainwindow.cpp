@@ -7,6 +7,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    database = new Database("/home/maahi/wagemanage/develop.db");
     QWidget *main = new QWidget();
     this->setCentralWidget(main);
     home = new HomePage();
@@ -23,8 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::getUser(QString user, QString pass){
      mainLayout->setCurrentIndex(1);
-     qDebug()<<user;
-     qDebug()<<pass;
+     database->addNewUser(user, pass);
 }
 MainWindow::~MainWindow()
 {

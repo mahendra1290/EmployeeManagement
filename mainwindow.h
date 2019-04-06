@@ -7,9 +7,11 @@
 #include "homepage.h"
 #include "employee.h"
 #include <QDebug>
+#include "database.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+    Database *database;
     employee *comp;
     HomePage *home;
     QStackedLayout *mainLayout;

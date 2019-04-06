@@ -1,6 +1,7 @@
 #include "homepage.h"
 #include <QPixmap>
-
+#include <QFont>
+#include <QDebug>
 HomePage::HomePage(QWidget *parent) : QWidget(parent)
 {
     homePage = new QGridLayout();
@@ -8,13 +9,22 @@ HomePage::HomePage(QWidget *parent) : QWidget(parent)
     currentForm = createHome();
     signupForm  = createSignup();
     signupForm->setMinimumSize(200, 200);
-    logo = new QLabel("MAROON SOLUTIONS");
-    logo->setText("MAROON SOLUTIONS");
+    QFont font;
+    font.setPointSize(30);
+    font.setBold(true);
+    logo = new QLabel();
+    footer = new QLabel();
+    footer->setText("all right reserved ");
+    footer->setMaximumHeight(60);
+    logo->setText(" MAROON \nSOLUTIONS");
+    logo->setWordWrap(true);
+    logo->setFont(font);
     loginSignup->addWidget(currentForm);
     loginSignup->addWidget(signupForm);
     loginSignup->setCurrentIndex(0);
     homePage->addWidget(logo, 0, 0, Qt::AlignCenter);
     homePage->addWidget(loginSignup , 0, 1, Qt::AlignCenter);
+    homePage->addWidget(footer, 1, 0, 1, 2, Qt::AlignBottom);
     setLayout(homePage);
 }
 
@@ -78,6 +88,13 @@ void HomePage::setHome(){
 void HomePage::getDetails(){
     QString user = username->text();
     QString pass = password->text();
-    emit sendUserDetails(user, pass);
+    if(user != "" && pass != "")
+        emit sendUserDetails(user, pass);
+    else if(user == "")
+        qDebug()<<"username must be filled";
+    else {
+        qDebug()<<"password must be entered";
+    }
+
 }
 

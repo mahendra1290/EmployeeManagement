@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,13 +29,15 @@ SOURCES += \
         mainwindow.cpp \
     pushbutton.cpp \
     homepage.cpp \
-    employee.cpp
+    employee.cpp \
+    database.cpp
 
 HEADERS += \
         mainwindow.h \
     pushbutton.h \
     homepage.h \
-    employee.h
+    employee.h \
+    database.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

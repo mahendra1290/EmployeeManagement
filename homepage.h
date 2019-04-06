@@ -13,6 +13,7 @@ class HomePage : public QWidget
 {
     Q_OBJECT
     QLabel *logo;
+    QLabel *footer;
 
     QStackedWidget *loginSignup;
     QWidget *currentForm;    
