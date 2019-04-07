@@ -8,7 +8,7 @@ employee::employee(QWidget *parent) : QWidget(parent)
     companyProfile = createCompanyPage();
     employeeProfile = createEmployeePage();
     this->setLayout(mainLayout);
-    mainPage->addTab(companyProfile, "company");
+    mainPage->addTab(companyProfile, "company profile");
     mainPage->addTab(employeeProfile, "employee");
     mainLayout->addWidget(mainPage);
     mainPage->setCurrentIndex(0);
@@ -17,25 +17,51 @@ employee::employee(QWidget *parent) : QWidget(parent)
 QWidget *employee::createCompanyPage(){
     QGridLayout *mainLayout = new QGridLayout();
     QWidget *company = new QWidget();
-    QLabel *compName = new QLabel("company name");
-    QLineEdit *comp_name = new QLineEdit();
-    QLabel *gstIn = new QLabel("GSTIN");
-    QLineEdit *gst_in = new QLineEdit();
-    QLabel *regis = new QLabel("regitration no.");
-    QLineEdit *regiS = new QLineEdit();
-    QLabel *state = new QLabel("state");
-    QLineEdit *State = new QLineEdit();
-    mainLayout->addWidget(compName, 0, 0);
-    mainLayout->addWidget(comp_name, 0, 1);
-    mainLayout->addWidget(gstIn, 0, 2);
-    mainLayout->addWidget(gst_in, 0, 3);
-    mainLayout->addWidget(regis, 1, 0);
-    mainLayout->addWidget(regiS, 1, 1);
-    mainLayout->addWidget(state, 1, 2);
-    mainLayout->addWidget(State, 1, 3);
+    QLineEdit **input[] = {
+        &compName, &regis, &address,
+        &city, &state, &country, &postal,
+        &email, &phone, &fax};
+    for(int i=0; i<10; i++){
+        *input[i] = new QLineEdit();
+    }
+    QString labelName[10] = {
+        "company name", "regis no.", "address","city",
+        "state", "country", "postal code", "email",
+        "phone" , "fax"
+    };
+    QLabel *labels[10];
+    for(int i=0; i<10; i++){
+        labels[i] = new QLabel();
+        labels[i]->setText(labelName[i]);
+    }
+    mainLayout->addWidget(labels[0], 0 , 0);
+    mainLayout->addWidget(*input[0], 0, 1);
+    mainLayout->addWidget(labels[1], 0 , 2);
+    mainLayout->addWidget(*input[1], 0, 3);
+
+    mainLayout->addWidget(labels[2], 1 , 0);
+    mainLayout->addWidget(*input[2], 1, 1, 1, 3);
+
+    mainLayout->addWidget(labels[3], 2 , 0);
+    mainLayout->addWidget(*input[3], 2, 1);
+    mainLayout->addWidget(labels[4], 2 , 2);
+    mainLayout->addWidget(*input[4], 2, 3);
+
+    mainLayout->addWidget(labels[5], 3 , 0);
+    mainLayout->addWidget(*input[5], 3, 1);
+    mainLayout->addWidget(labels[6], 3 , 2);
+    mainLayout->addWidget(*input[6], 3, 3);
+
+    mainLayout->addWidget(labels[7], 4 , 0);
+    mainLayout->addWidget(*input[7], 4, 1, 1, 3);
+
+    mainLayout->addWidget(labels[8], 5 , 0);
+    mainLayout->addWidget(*input[8], 5, 1);
+    mainLayout->addWidget(labels[9], 5 , 2);
+    mainLayout->addWidget(*input[9], 5, 3);
+
     company->setLayout(mainLayout);
-    //QLabel *compName = new QLabel("company name");
-    //QLineEdit *comp_name = new QLineEdit();
+
     return company;
 }
 
@@ -49,6 +75,10 @@ QWidget *employee::createEmployeePage(){
     layout->addWidget(name);
     company->setLayout(layout);
     return company;
+}
+
+void employee::setUser(QString user){
+    this->setWindowTitle(user);
 }
 
 
