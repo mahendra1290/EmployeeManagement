@@ -11,27 +11,46 @@ Database::Database(const QString path){
    }
 }
 
-bool Database::addNewUser(const QString user, const QString pass){
+bool Database::addNewUser(const QString data[]){
     bool success = false;
     QSqlQuery query;
-    query.prepare("SELECT username ,password FROM users WHERE username=:usern AND"
-                  " password=:passn");
-    //qDebug()<<user<<pass;
-    query.bindValue(":usern", user);
-    query.bindValue(":passn", pass);
+    query.prepare("INSERT INTO users (first_name, last_name, user_id, "
+                  "email, phone, password) VALUES (:fname, :lname, "
+                  ":userid, :email, :phone,:pass)");
+    query.bindValue(":fname", data[0]);
+    query.bindValue(":lname", data[1]);
+    query.bindValue(":userid",data[2]);
+    query.bindValue(":email", data[3]);
+    query.bindValue(":phone", data[4]);
+    query.bindValue(":pass",  data[5]);
     if(query.exec()){
        success = true;
     }
     else{
-        qDebug() << "addPerson error:  "
+        qDebug() << "add user error:  "
                  << query.lastError();
     }
-    if(query.next()){
-        qDebug() <<"got it";
+    return success;
+}
+
+bool Database::validateUser(const QString *data){
+    bool success = false;
+    QSqlQuery query;
+    query.prepare("SELECT user_id, password FROM users WHERE user_id=:userid");
+    query.bindValue(":userid", data[0]);
+    if(query.exec()){
+        success = true;
+    }
+    if(query.first()){
+        success = true;
         qDebug()<<query.value(1);
     }
     else{
-        qDebug()<<"no"<< query.lastError();
+        qDebug()<<query.first();
+        qDebug()<<"cant login"
+                <<query.lastError();
+        success = false;
     }
+
     return success;
 }

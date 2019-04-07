@@ -12,7 +12,8 @@ class Database
     QSqlDatabase m_db;
 public:
     Database(const QString path);
-    bool addNewUser(const QString user, const QString pass);
+    bool addNewUser(const QString data[]);
+    bool validateUser(const QString data[]);
 };
 
 #endif // DATABASE_H
