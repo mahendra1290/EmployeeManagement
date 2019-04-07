@@ -12,8 +12,10 @@ HomePage::HomePage(QWidget *parent) : QWidget(parent)
     QFont font;
     font.setPointSize(30);
     font.setBold(true);
+
     logo = new QLabel();
     footer = new QLabel();
+
     footer->setText("all right reserved ");
     footer->setMaximumHeight(60);
     logo->setText(" MAROON \nSOLUTIONS");
@@ -38,12 +40,14 @@ QWidget *HomePage::createHome(){
     password->setPlaceholderText("password");
     login = new pushButton("login");
     pushButton *signup = new pushButton("signup");
-    connect(login,  &pushButton::clicked, this, &HomePage::getDetails);
+    connect(login,  &pushButton::clicked, this, &HomePage::getLoginDetails);
     connect(signup, &pushButton::clicked, this, &HomePage::changeStacked);
     layout->addWidget(username);
     layout->addWidget(password);
     layout->addWidget(login);
     layout->addWidget(signup);
+    error = new QLabel();
+    layout->addWidget(error);
     home->setLayout(layout);
     home->setStyleSheet("QLineEdit{"
                         "height:27px;"
@@ -52,25 +56,30 @@ QWidget *HomePage::createHome(){
 }
 
 QWidget *HomePage::createSignup(){
-    QVBoxLayout *layout = new QVBoxLayout();
+    QGridLayout *layout = new QGridLayout;
     QWidget *sign = new QWidget;
-    email = new QLineEdit();
-    email->setPlaceholderText("email");
-    usernameSign = new QLineEdit();
-    usernameSign->setPlaceholderText("username");
-    passwordSign = new QLineEdit();
-    passwordSign->setPlaceholderText("password");
-    confpasswordSign = new QLineEdit();
-    confpasswordSign->setPlaceholderText("confirm password");
+    QString placeHolder[6] = {"first name", "last name",
+                            "user id", "email", "phone",
+                            "password"};
+    QLineEdit **list[6] = {&firstName, &lastName,
+                        &userId, &email,
+                        &phone, &passwordOfSign};
+    for(int i=0; i<6; i++){
+        *(list[i]) = new QLineEdit();
+        (*(list[i]))->setPlaceholderText(placeHolder[i]);
+    }
     pushButton *cancel = new pushButton("cancel");
     pushButton *create = new pushButton("create");
+    connect(create, &QPushButton::clicked, this, &HomePage::getSignupDetails);
     connect(cancel, &QPushButton::clicked, this, &HomePage::setHome);
-    layout->addWidget(email);
-    layout->addWidget(usernameSign);
-    layout->addWidget(passwordSign);
-    layout->addWidget(confpasswordSign);
-    layout->addWidget(cancel);
-    layout->addWidget(create);
+    layout->addWidget(*list[0], 0, 0);
+    layout->addWidget(*list[1], 0, 1);
+    layout->addWidget(*list[2], 1, 0, 1, 2);
+    layout->addWidget(*list[3], 2, 0, 1, 2);
+    layout->addWidget(*list[4], 3, 0, 1, 2);
+    layout->addWidget(*list[5], 4, 0, 1, 2);
+    layout->addWidget(create, 5, 0);
+    layout->addWidget(cancel, 5, 1);
     sign->setLayout(layout);
     sign->setStyleSheet("QLineEdit{"
                         "height:24px;"
@@ -78,23 +87,48 @@ QWidget *HomePage::createSignup(){
     return sign;
 }
 
-
 void HomePage::changeStacked(){
     loginSignup->setCurrentIndex(1);
 }
+
 void HomePage::setHome(){
     loginSignup->setCurrentIndex(0);
 }
-void HomePage::getDetails(){
+
+void HomePage::getLoginDetails(){
     QString user = username->text();
     QString pass = password->text();
     if(user != "" && pass != "")
-        emit sendUserDetails(user, pass);
+        emit sendUser(user, pass);
     else if(user == "")
         qDebug()<<"username must be filled";
     else {
         qDebug()<<"password must be entered";
     }
-
 }
 
+void HomePage::clearUserLogin(){
+    username->setText("");
+    password->setText("");
+}
+
+void HomePage::setError(QString errorMsg){
+    error->setText(errorMsg);
+    error->setWordWrap(true);
+    QTimer::singleShot(5000, this ,SLOT(clearError()));
+}
+
+void HomePage::clearError(){
+    error->setText("");
+}
+
+void HomePage::getSignupDetails(){
+    const QString f = firstName->text();
+    const QString l = lastName->text();
+    const QString u = userId->text();
+    const QString e = email->text();
+    const QString p = phone->text();
+    const QString ps = passwordOfSign->text();
+    const QString data[] = {f, l, u, e, p, ps};
+    emit sendNewUser(data);
+}

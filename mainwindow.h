@@ -21,6 +21,7 @@ public:
 
 public slots:
      void getUser(QString user, QString pass);
+     void getNewUser(const QString data[]);
 };
 
 #endif // MAINWINDOW_H
