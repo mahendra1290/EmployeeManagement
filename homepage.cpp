@@ -4,11 +4,13 @@
 #include <QDebug>
 HomePage::HomePage(QWidget *parent) : QWidget(parent)
 {
-    homePage = new QGridLayout();
+
+    mainLayout = new QVBoxLayout();
+    middle = new QGridLayout();
     loginSignup = new QStackedWidget();
     currentForm = createHome();
     signupForm  = createSignup();
-    signupForm->setMinimumSize(200, 200);
+    //signupForm->setMinimumSize(200, 200);
     QFont font;
     font.setPointSize(30);
     font.setBold(true);
@@ -24,10 +26,11 @@ HomePage::HomePage(QWidget *parent) : QWidget(parent)
     loginSignup->addWidget(currentForm);
     loginSignup->addWidget(signupForm);
     loginSignup->setCurrentIndex(0);
-    homePage->addWidget(logo, 0, 0, Qt::AlignCenter);
-    homePage->addWidget(loginSignup , 0, 1, Qt::AlignCenter);
-    homePage->addWidget(footer, 1, 0, 1, 2, Qt::AlignBottom);
-    setLayout(homePage);
+    middle->addWidget(logo, 0, 0, Qt::AlignCenter);
+    middle->addWidget(loginSignup, 0, 1, Qt::AlignCenter);
+    mainLayout->addLayout(middle, Qt::AlignCenter);
+    mainLayout->addWidget(footer);
+    setLayout(mainLayout);
 }
 
 QWidget *HomePage::createHome(){
@@ -58,13 +61,13 @@ QWidget *HomePage::createHome(){
 QWidget *HomePage::createSignup(){
     QGridLayout *layout = new QGridLayout;
     QWidget *sign = new QWidget;
-    QString placeHolder[6] = {"first name", "last name",
+    QString placeHolder[7] = {"first name", "last name",
                             "user id", "email", "phone",
-                            "password"};
-    QLineEdit **list[6] = {&firstName, &lastName,
+                            "password", "company_id"};
+    QLineEdit **list[7] = {&firstName, &lastName,
                         &userId, &email,
-                        &phone, &passwordOfSign};
-    for(int i=0; i<6; i++){
+                        &phone, &passwordOfSign, &companyId};
+    for(int i=0; i<7; i++){
         *(list[i]) = new QLineEdit();
         (*(list[i]))->setPlaceholderText(placeHolder[i]);
     }
@@ -78,8 +81,9 @@ QWidget *HomePage::createSignup(){
     layout->addWidget(*list[3], 2, 0, 1, 2);
     layout->addWidget(*list[4], 3, 0, 1, 2);
     layout->addWidget(*list[5], 4, 0, 1, 2);
-    layout->addWidget(create, 5, 0);
-    layout->addWidget(cancel, 5, 1);
+    layout->addWidget(*list[6], 5, 0, 1, 2);
+    layout->addWidget(create, 6, 0);
+    layout->addWidget(cancel, 6, 1);
     sign->setLayout(layout);
     sign->setStyleSheet("QLineEdit{"
                         "height:24px;"
@@ -129,6 +133,8 @@ void HomePage::getSignupDetails(){
     const QString e = email->text();
     const QString p = phone->text();
     const QString ps = passwordOfSign->text();
-    const QString data[] = {f, l, u, e, p, ps};
+    const QString ci = companyId->text();
+    const QString data[] = {f, l, u, e, p, ps, ci};
+    loginSignup->setCurrentIndex(0);
     emit sendNewUser(data);
 }

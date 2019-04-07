@@ -13,7 +13,10 @@ class Database
 public:
     Database(const QString path);
     bool addNewUser(const QString data[]);
-    bool validateUser(const QString data[]);
+    bool validateUser(const QString data[], QString &username, QString &company_id);
+    bool addCompanyDetails(const QString data[]);
+    bool getCompanyDetails(const QString compId, QString data[]);
+    bool addWorker(const QString data[]);
 };
 
 #endif // DATABASE_H

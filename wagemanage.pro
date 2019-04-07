@@ -30,14 +30,16 @@ SOURCES += \
     pushbutton.cpp \
     homepage.cpp \
     employee.cpp \
-    database.cpp
+    database.cpp \
+    worker.cpp
 
 HEADERS += \
         mainwindow.h \
     pushbutton.h \
     homepage.h \
     employee.h \
-    database.h
+    database.h \
+    worker.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

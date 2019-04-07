@@ -9,6 +9,8 @@
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QVBoxLayout>
+
 class HomePage : public QWidget
 {
     Q_OBJECT
@@ -29,8 +31,10 @@ class HomePage : public QWidget
     QLineEdit *email = nullptr;
     QLineEdit *phone= nullptr;
     QLineEdit *passwordOfSign=nullptr;
+    QLineEdit *companyId = nullptr;
 
-    QGridLayout *homePage;
+    QVBoxLayout *mainLayout;
+    QGridLayout *middle;
 public:
     pushButton *login;
     explicit HomePage(QWidget *parent = nullptr);

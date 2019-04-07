@@ -11,6 +11,9 @@
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+    QString user;
+    QString *data;
+    QString companyId;
     Database *database;
     employee *comp;
     HomePage *home;
