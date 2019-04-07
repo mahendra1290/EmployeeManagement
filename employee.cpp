@@ -1,5 +1,6 @@
 #include "employee.h"
 #include <QDebug>
+#include <QScrollArea>
 employee::employee(QWidget *parent) : QWidget(parent)
 {
     user = new QString();
@@ -12,15 +13,29 @@ employee::employee(QWidget *parent) : QWidget(parent)
     mainPage->addTab(employeeProfile, "employee");
     mainLayout->addWidget(mainPage);
     mainPage->setCurrentIndex(0);
+    enableCompanyEdit(false);
 }
 
 QWidget *employee::createCompanyPage(){
+
+    //QScrollArea *area = new QScrollArea();
+    company = new QString[10];
     QGridLayout *mainLayout = new QGridLayout();
+    QHBoxLayout *btnlayout = new QHBoxLayout();
     QWidget *company = new QWidget();
-    QLineEdit **input[] = {
-        &compName, &regis, &address,
-        &city, &state, &country, &postal,
-        &email, &phone, &fax};
+    edit = new pushButton("edit");
+    edit->setMaximumWidth(100);
+    save = new pushButton("save");
+    save->setMaximumWidth(100);
+    cancel = new pushButton("cancel");
+    cancel->setMaximumWidth(100);
+    connect(edit, &QPushButton::clicked, this, &employee::editCompanyDetails);
+    connect(save, &QPushButton::clicked, this, &employee::saveCompanyDetails);
+    connect(cancel, &QPushButton::clicked, this, &employee::cancelCompanyEdit);
+    btnlayout->addWidget(edit, Qt::AlignLeft);
+    btnlayout->addWidget(save, Qt::AlignLeft);
+    btnlayout->addWidget(cancel, Qt::AlignLeft);
+
     for(int i=0; i<10; i++){
         *input[i] = new QLineEdit();
     }
@@ -60,19 +75,21 @@ QWidget *employee::createCompanyPage(){
     mainLayout->addWidget(labels[9], 5 , 2);
     mainLayout->addWidget(*input[9], 5, 3);
 
+    mainLayout->addLayout(btnlayout, 6, 0, 1, 2, Qt::AlignLeft);
     company->setLayout(mainLayout);
-
+    //area->setWidget(company);
     return company;
 }
 
 QWidget *employee::createEmployeePage(){
-    layout = new QVBoxLayout();
-    QWidget *company = new QWidget();
-    QLabel *hlo = new QLabel("employee page");
+    emp = new Worker();
+    emp_1 = new Worker();
 
-    QLineEdit *name = new QLineEdit();
-    layout->addWidget(hlo);
-    layout->addWidget(name);
+    layout = new QGridLayout();
+    QWidget *company = new QWidget();
+
+    layout->addWidget(emp, 0, 0, Qt::AlignTop);
+    layout->addWidget(emp_1, 0, 1, Qt::AlignTop);
     company->setLayout(layout);
     return company;
 }
@@ -81,4 +98,40 @@ void employee::setUser(QString user){
     this->setWindowTitle(user);
 }
 
+
+void employee::enableCompanyEdit(bool on){
+    for(int i=0; i<10; i++){
+        (*input[i])->setReadOnly(!on);
+    }
+    edit->setVisible(!on);
+    save->setVisible(on);
+    cancel->setVisible(on);
+}
+
+void employee::editCompanyDetails(){
+    enableCompanyEdit(true);
+    for(int i=0; i<10; i++){
+        company[i] = (*input[i])->text();
+    }
+}
+
+void employee::saveCompanyDetails(){
+    enableCompanyEdit(false);
+}
+
+void employee::cancelCompanyEdit(){
+    for(int i=0; i<10; i++){
+        (*input[i])->setText(company[i]);
+        company[i] = "";
+    }
+    enableCompanyEdit(false);
+}
+
+void employee::setCompanyDetails(QString *data){
+    enableCompanyEdit(true);
+    for(int i=0; i<10; i++){
+        (*input[i])->setText(data[i]);
+    }
+    enableCompanyEdit(false);
+}
 

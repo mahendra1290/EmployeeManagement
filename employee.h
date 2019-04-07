@@ -7,25 +7,42 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QGridLayout>
+#include "worker.h"
+#include "pushbutton.h"
+
 class employee : public QWidget
 {
     Q_OBJECT
+    Worker *emp;
+    Worker *emp_1;
+
     QTabWidget *mainPage;
-    QVBoxLayout *layout;
+    QGridLayout *layout;
     QVBoxLayout *mainLayout;
     QString *user;
     QWidget *companyProfile;
 
-    QLineEdit *compName;
-    QLineEdit *regis;
-    QLineEdit *address;
-    QLineEdit *city;
-    QLineEdit *state;
-    QLineEdit *country;
-    QLineEdit *postal;
-    QLineEdit *email;
-    QLineEdit *phone;
-    QLineEdit *fax;
+    QString *company;
+
+    QLineEdit *compName = nullptr;
+    QLineEdit *regis  = nullptr;
+    QLineEdit *address= nullptr;
+    QLineEdit *city   = nullptr;
+    QLineEdit *state  = nullptr;
+    QLineEdit *country= nullptr;
+    QLineEdit *postal = nullptr;
+    QLineEdit *email  = nullptr;
+    QLineEdit *phone  = nullptr;
+    QLineEdit *fax    = nullptr;
+
+    pushButton *edit = nullptr;
+    pushButton *save = nullptr;
+    pushButton *cancel = nullptr;
+
+    QLineEdit **input[10] = {
+        &compName, &regis, &address,
+        &city, &state, &country, &postal,
+        &email, &phone, &fax};
 
     QWidget *employeeProfile;
 
@@ -34,10 +51,14 @@ public:
     QWidget *createCompanyPage();
     QWidget *createEmployeePage();
     void setUser(QString user);
+    void enableCompanyEdit(bool on);
+    void setCompanyDetails(QString data[]);
 signals:
 
 public slots:
-
+    void editCompanyDetails();
+    void saveCompanyDetails();
+    void cancelCompanyEdit();
 };
 
 #endif // EMPLOYEE_H
