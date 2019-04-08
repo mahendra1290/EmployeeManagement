@@ -3,6 +3,17 @@
 #include <QScrollArea>
 employee::employee(QWidget *parent) : QWidget(parent)
 {
+    QWidget *top = new QWidget();
+    QHBoxLayout *topLayout = new QHBoxLayout();
+    QLabel *u = new QLabel("username");
+    QLabel *add = new QLabel("add worker");
+    QLabel *find = new QLabel("find worker");
+    QLabel *remove = new QLabel("remove worker");
+    topLayout->addWidget(u);
+    topLayout->addWidget(add);
+    topLayout->addWidget(find);
+    topLayout->addWidget(remove);
+    top->setLayout(topLayout);
     user = new QString();
     mainLayout = new QVBoxLayout();
     mainPage = new QTabWidget(this);
@@ -11,8 +22,10 @@ employee::employee(QWidget *parent) : QWidget(parent)
     this->setLayout(mainLayout);
     mainPage->addTab(companyProfile, "company profile");
     mainPage->addTab(employeeProfile, "employee");
+    mainLayout->addWidget(top);
     mainLayout->addWidget(mainPage);
     mainPage->setCurrentIndex(0);
+    //area->setWidget(mainPage);
     enableCompanyEdit(false);
 }
 
@@ -23,7 +36,7 @@ QWidget *employee::createCompanyPage(){
     QGridLayout *mainLayout = new QGridLayout();
     QHBoxLayout *btnlayout = new QHBoxLayout();
     QWidget *company = new QWidget();
-    edit = new pushButton("edit");
+    edit = new pushButton("update");
     edit->setMaximumWidth(100);
     save = new pushButton("save");
     save->setMaximumWidth(100);
@@ -84,12 +97,12 @@ QWidget *employee::createCompanyPage(){
 QWidget *employee::createEmployeePage(){
     emp = new Worker();
     emp_1 = new Worker();
-
-    layout = new QGridLayout();
+    Worker *emp_2 = new Worker();
+    layout = new QVBoxLayout();
     QWidget *company = new QWidget();
-
-    layout->addWidget(emp, 0, 0, Qt::AlignTop);
-    layout->addWidget(emp_1, 0, 1, Qt::AlignTop);
+    layout->addWidget(emp);
+    layout->addWidget(emp_1);
+    layout->addWidget(emp_2);
     company->setLayout(layout);
     return company;
 }

@@ -17,7 +17,7 @@ class employee : public QWidget
     Worker *emp_1;
 
     QTabWidget *mainPage;
-    QGridLayout *layout;
+    QVBoxLayout *layout;
     QVBoxLayout *mainLayout;
     QString *user;
     QWidget *companyProfile;

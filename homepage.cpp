@@ -20,7 +20,7 @@ HomePage::HomePage(QWidget *parent) : QWidget(parent)
 
     footer->setText("all right reserved ");
     footer->setMaximumHeight(60);
-    logo->setText(" MAROON \nSOLUTIONS");
+    logo->setText(" MAROON \nSOLUTIONS\n");
     logo->setWordWrap(true);
     logo->setFont(font);
     loginSignup->addWidget(currentForm);
@@ -29,7 +29,7 @@ HomePage::HomePage(QWidget *parent) : QWidget(parent)
     middle->addWidget(logo, 0, 0, Qt::AlignCenter);
     middle->addWidget(loginSignup, 0, 1, Qt::AlignCenter);
     mainLayout->addLayout(middle, Qt::AlignCenter);
-    mainLayout->addWidget(footer);
+    mainLayout->addWidget(footer, Qt::AlignCenter);
     setLayout(mainLayout);
 }
 

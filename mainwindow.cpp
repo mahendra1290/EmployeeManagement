@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
     //mainLayout->addWidget(comp);
     mainLayout->setCurrentIndex(0);
     main->setLayout(mainLayout);
+    main->setStyleSheet("QLabel{color:blue;}");
+                        //"QLabel:hover{"
+                        //"color:orange;}");
 }
 
 void MainWindow::getUser(QString user, QString pass){

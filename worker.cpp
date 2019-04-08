@@ -19,6 +19,7 @@ Worker::Worker(QWidget *parent) : QWidget(parent)
     }
     for(int i=0; i<6; i++){
         *list[i] = new QLineEdit();
+        (*list[i])->setText("demo data");
     }
 
     layout->addWidget(img, 0, 0, 6, 1);
