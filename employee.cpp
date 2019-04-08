@@ -1,6 +1,7 @@
 #include "employee.h"
 #include <QDebug>
 #include <QScrollArea>
+
 employee::employee(QWidget *parent) : QWidget(parent)
 {
     QWidget *top = new QWidget();
@@ -94,17 +95,34 @@ QWidget *employee::createCompanyPage(){
     return company;
 }
 
-QWidget *employee::createEmployeePage(){
+QScrollArea *employee::createEmployeePage(){
+    QScrollArea *area = new QScrollArea;
+    QString empdata1[] = {"mahendra suthar", "mahen1290", "$1234",
+                         "mahen@gmail.com","123443212", "jodhpur", "vinod1234"
+                         };
+    QString empdata2[] = {"anurag jain", "anurag2105", "$1234",
+                         "anurag.jain@gmail.com","345678912",
+                          "faridkot", "vinod1234"
+                         };
+    QString empdata3[] = {"piyush bhutani", "piyush1905", "$1234",
+                         "piyush.bhutani@gmail.com","9898765678",
+                          "yamunanagar", "vinod1234"
+                         };
     emp = new Worker();
     emp_1 = new Worker();
     Worker *emp_2 = new Worker();
     layout = new QVBoxLayout();
+    emp->setData(empdata1);
+    emp_1->setData(empdata2);
+    emp_2->setData(empdata3);
     QWidget *company = new QWidget();
     layout->addWidget(emp);
     layout->addWidget(emp_1);
     layout->addWidget(emp_2);
+    layout->setSpacing(20);
     company->setLayout(layout);
-    return company;
+    area->setWidget(company);
+    return area;
 }
 
 void employee::setUser(QString user){

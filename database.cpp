@@ -114,3 +114,28 @@ bool Database::getCompanyDetails(QString compid, QString *data){
 
     return success;
 }
+
+bool Database::addWorker(const QString *data){
+    qDebug()<<"in add worker";
+    bool success = false;
+    QSqlQuery query;
+    query.prepare("INSERT INTO workers (name, worker_id, "
+                  "salary, email, phone, address, company_id) VALUES (:name, "
+                  ":worker_id, :salary, :email,:phone, :address, :company_id)");
+    query.bindValue(":name", data[0]);
+    query.bindValue(":worker_id", data[1]);
+    query.bindValue(":salary",data[2]);
+    query.bindValue(":email", data[3]);
+    query.bindValue(":phone", data[4]);
+    query.bindValue(":address",  data[5]);
+    query.bindValue(":company_id",  data[6]);
+    if(query.exec()){
+       success = true;
+       qDebug()<<"added";
+    }
+    else{
+        qDebug() << "add user error:  "
+                 << query.lastError();
+    }
+    return success;
+}

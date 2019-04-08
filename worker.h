@@ -21,6 +21,7 @@ class Worker : public QWidget
 
 public:
     explicit Worker(QWidget *parent = nullptr);
+    void setData(QString *data);
 
 signals:
 

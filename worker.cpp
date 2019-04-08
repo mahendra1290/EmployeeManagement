@@ -1,10 +1,12 @@
 #include "worker.h"
-
+#include <QPixmap>
 Worker::Worker(QWidget *parent) : QWidget(parent)
 {
+    QPixmap *prof  = new QPixmap("/home/maahi/wagemanage/prof.png");
+    *prof = prof->scaled(180, 180, Qt::KeepAspectRatio);
     QGridLayout *layout = new QGridLayout();
     img = new QLabel();
-    img->setText("image");
+    img->setPixmap(*prof);
     delet = new pushButton("delete");
     edit = new pushButton("edit");
     QLineEdit **list[6] = {&name, &companyId,
@@ -19,7 +21,6 @@ Worker::Worker(QWidget *parent) : QWidget(parent)
     }
     for(int i=0; i<6; i++){
         *list[i] = new QLineEdit();
-        (*list[i])->setText("demo data");
     }
 
     layout->addWidget(img, 0, 0, 6, 1);
@@ -44,4 +45,13 @@ Worker::Worker(QWidget *parent) : QWidget(parent)
     layout->addWidget(edit, 5, 1, 1, 2);
     layout->addWidget(delet, 5, 3, 1, 2);
     this->setLayout(layout);
+}
+
+void Worker::setData(QString *data){
+    QLineEdit **list[6] = {&name, &companyId,
+                        &salary, &email,
+                        &phone, &address};
+    for(int i=0; i<6; i++){
+        (*list[i])->setText(data[i]);
+    }
 }

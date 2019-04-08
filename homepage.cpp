@@ -23,6 +23,7 @@ HomePage::HomePage(QWidget *parent) : QWidget(parent)
     logo->setText(" MAROON \nSOLUTIONS\n");
     logo->setWordWrap(true);
     logo->setFont(font);
+    logo->setStyleSheet("color:blue;");
     loginSignup->addWidget(currentForm);
     loginSignup->addWidget(signupForm);
     loginSignup->setCurrentIndex(0);

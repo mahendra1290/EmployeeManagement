@@ -25,9 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
     //mainLayout->addWidget(comp);
     mainLayout->setCurrentIndex(0);
     main->setLayout(mainLayout);
-    main->setStyleSheet("QLabel{color:blue;}");
-                        //"QLabel:hover{"
-                        //"color:orange;}");
 }
 
 void MainWindow::getUser(QString user, QString pass){
@@ -52,8 +49,8 @@ void MainWindow::getUser(QString user, QString pass){
 
 void MainWindow::getNewUser(const QString data[]){
     database->addNewUser(data);
-   // QString compdata[] = {"dfs", "fdsf", "fds", "df", "fds", "fdf",
-        //                 "dsg", "dgsa", "grgr", "fegr", "vin"};
+   /* QString compdata[] = {"vinod enterprises", "jodh-1234", "cs-department",  "jodhpur", "rajasthan", "india",
+                        "342005", "vinod.enterprises.39@gmail.com", "8796053421", "0123-987654321", "vinod1234"};*/
     //database->addCompanyDetails(compdata);
 }
 MainWindow::~MainWindow()

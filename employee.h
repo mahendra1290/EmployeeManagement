@@ -9,6 +9,7 @@
 #include <QGridLayout>
 #include "worker.h"
 #include "pushbutton.h"
+#include <QScrollArea>
 
 class employee : public QWidget
 {
@@ -44,12 +45,12 @@ class employee : public QWidget
         &city, &state, &country, &postal,
         &email, &phone, &fax};
 
-    QWidget *employeeProfile;
+    QScrollArea *employeeProfile;
 
 public:    
     explicit employee(QWidget *parent = nullptr);
     QWidget *createCompanyPage();
-    QWidget *createEmployeePage();
+    QScrollArea *createEmployeePage();
     void setUser(QString user);
     void enableCompanyEdit(bool on);
     void setCompanyDetails(QString data[]);
